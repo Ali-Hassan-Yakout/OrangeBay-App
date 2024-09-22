@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:orange_bay/core/utils/app_colors.dart';
 import 'package:orange_bay/core/widgets/text_form_field.dart';
 import 'package:orange_bay/features/card%20activation/presentation/views/widgets/custom_text.dart';
 
@@ -24,11 +23,10 @@ class AllCardIfonTextFields extends StatelessWidget {
                 const CustomText(
                   text: 'Name',
                 ),
-                CustomTextField(
+                AppTextField(
                   controller: userName,
                   hint: '',
-                  iconColor: AppColors.blue,
-                  readOnly: true,
+                  isClickable: false,
                 ),
               ],
             ),
@@ -40,11 +38,10 @@ class AllCardIfonTextFields extends StatelessWidget {
                 const CustomText(
                   text: 'Nationality',
                 ),
-                CustomTextField(
+                AppTextField(
                   controller: nationality,
                   hint: '',
-                  iconColor: AppColors.blue,
-                  readOnly: true,
+                  isClickable: false,
                 ),
               ],
             ),
@@ -56,11 +53,10 @@ class AllCardIfonTextFields extends StatelessWidget {
                 const CustomText(
                   text: 'Ticket Number',
                 ),
-                CustomTextField(
+                AppTextField(
                   controller: ticketNum,
                   hint: '',
-                  iconColor: AppColors.blue,
-                  readOnly: true,
+                  isClickable: false,
                 ),
               ],
             ),
@@ -72,11 +68,10 @@ class AllCardIfonTextFields extends StatelessWidget {
                 const CustomText(
                   text: 'Tour Guide Name',
                 ),
-                CustomTextField(
+                AppTextField(
                   controller: guidName,
                   hint: '',
-                  iconColor: AppColors.blue,
-                  readOnly: true,
+                  isClickable: false,
                 ),
               ],
             ),
@@ -90,11 +85,10 @@ class AllCardIfonTextFields extends StatelessWidget {
                 const CustomText(
                   text: 'Card Release Date',
                 ),
-                CustomTextField(
+                AppTextField(
                   controller: cardHistory,
                   hint: '',
-                  iconColor: AppColors.blue,
-                  readOnly: true,
+                  isClickable: false,
                 ),
               ],
             ),
@@ -106,11 +100,10 @@ class AllCardIfonTextFields extends StatelessWidget {
                 const CustomText(
                   text: 'Current Balance',
                 ),
-                CustomTextField(
+                AppTextField(
                   controller: currentBalance,
                   hint: '',
-                  iconColor: AppColors.blue,
-                  readOnly: true,
+                  isClickable: false,
                 ),
               ],
             ),

@@ -44,11 +44,11 @@ class _CashierHomeBodyState extends State<CashierHomeBody> {
                             .of(context)
                             .size
                             .height / 12,
-                        child: CustomTextField(
+                        child: AppTextField(
                           controller: searchController,
                           hint: "search",
-                          icon: Icons.search,
-                          errorText: "",
+                          suffix: const Icon(Icons.search),
+                          type: TextInputType.text,
                         ),
                       ),
                       GridView.builder(

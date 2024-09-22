@@ -7,6 +7,7 @@ import 'package:orange_bay/core/utils/app_nfc.dart';
 import 'package:orange_bay/core/utils/app_router.dart';
 import 'package:orange_bay/core/utils/app_toast.dart';
 import 'package:orange_bay/core/utils/assets.dart';
+import 'package:orange_bay/core/widgets/text_form_field.dart';
 import 'package:orange_bay/features/app_manager/app_manager_cubit.dart';
 import 'package:orange_bay/features/app_manager/app_manager_state.dart';
 import 'package:orange_bay/features/login/manager/login_manager_cubit.dart';
@@ -46,177 +47,165 @@ class _LoginViewState extends State<LoginView> {
           if (state is LoginSuccess) {
             onLoginSuccess();
           } else if (state is LoginFailure) {
-            AppToast.displayToast(state.errorMessage);
+            AppToast.displayToast(
+              message: state.errorMessage,
+              isError: true,
+            );
           }
         },
         child: Scaffold(
           backgroundColor: AppColors.primary,
-          body: SafeArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  flex: 1,
-                  child: Image.asset(
-                    AssetData.logo,
-                  ),
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.transparent,
+            actions: [
+              IconButton(
+                onPressed: () {
+                  GoRouter.of(context).push(AppRouter.settings);
+                },
+                icon: Icon(
+                  Icons.settings,
+                  size: 40.r,
+                  color: AppColors.mainOrange,
                 ),
-                Expanded(
-                  flex: 2,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 15.h,
-                      horizontal: 15.w,
-                    ),
-                    margin: EdgeInsets.only(
-                      bottom: 25.h,
-                      left: 30.w,
-                      right: 30.w,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16.r),
-                    ),
-                    child: Form(
-                      key: cubit.formKey,
-                      child: ListView(
-                        physics: const BouncingScrollPhysics(),
-                        children: [
-                          Text(
-                            "Email",
-                            style: textTheme.titleLarge!.copyWith(
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
+              )
+            ],
+          ),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                flex: 1,
+                child: Image.asset(
+                  AssetData.logo,
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 15.h,
+                    horizontal: 15.w,
+                  ),
+                  margin: EdgeInsets.only(
+                    bottom: 25.h,
+                    left: 30.w,
+                    right: 30.w,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16.r),
+                  ),
+                  child: Form(
+                    key: cubit.formKey,
+                    child: ListView(
+                      physics: const BouncingScrollPhysics(),
+                      children: [
+                        Text(
+                          "Email",
+                          style: textTheme.titleLarge!.copyWith(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.bold,
                           ),
-                          SizedBox(height: 20.h),
-                          TextFormField(
-                            controller: cubit.emailController,
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Email required!";
-                              }
-                              return null;
-                            },
-                            textInputAction: TextInputAction.next,
-                            keyboardType: TextInputType.emailAddress,
-                            cursorColor: AppColors.primary,
-                            style: const TextStyle(color: AppColors.primary),
-                            decoration: const InputDecoration(
-                              prefixIcon: Icon(
-                                Icons.email_outlined,
-                                color: AppColors.primary,
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: AppColors.primary),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: AppColors.primary),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.red),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: Colors.red),
-                              ),
-                            ),
+                        ),
+                        SizedBox(height: 20.h),
+                        AppTextField(
+                          controller: cubit.emailController,
+                          validate: (value) {
+                            if (value!.isEmpty) {
+                              return "Email required!";
+                            }
+                            return null;
+                          },
+                          hint: "Please Enter Email",
+                          type: TextInputType.emailAddress,
+                        ),
+                        SizedBox(height: 30.h),
+                        Text(
+                          "Password",
+                          style: textTheme.titleLarge!.copyWith(
+                            color: AppColors.primary,
+                            fontWeight: FontWeight.bold,
                           ),
-                          SizedBox(height: 30.h),
-                          Text(
-                            "Password",
-                            style: textTheme.titleLarge!.copyWith(
-                              color: AppColors.primary,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(height: 20.h),
-                          BlocBuilder<AppManagerCubit, AppManagerState>(
-                            buildWhen: (previous, current) =>
-                                current is ObscureChange,
-                            builder: (context, state) {
-                              return TextFormField(
-                                controller: cubit.passwordController,
-                                validator: (value) {
-                                  if (value!.isEmpty) {
-                                    return "Password required!";
-                                  }
-                                  return null;
-                                },
-                                textInputAction: TextInputAction.done,
-                                keyboardType: TextInputType.visiblePassword,
-                                obscureText: cubit.obscure,
-                                cursorColor: AppColors.primary,
-                                style:
-                                    const TextStyle(color: AppColors.primary),
-                                decoration: InputDecoration(
-                                  prefixIcon: const Icon(
-                                    Icons.lock_outline,
-                                    color: AppColors.primary,
-                                  ),
-                                  suffixIcon: IconButton(
-                                    onPressed: () {
-                                      cubit.obscure = !cubit.obscure;
-                                      BlocProvider.of<AppManagerCubit>(context)
-                                          .onObscureChange();
-                                    },
-                                    icon: Icon(
-                                      cubit.obscure
-                                          ? Icons.visibility_off_outlined
-                                          : Icons.visibility_outlined,
-                                      color: AppColors.primary,
-                                    ),
-                                  ),
-                                  focusedBorder: const OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: AppColors.primary),
-                                  ),
-                                  enabledBorder: const OutlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: AppColors.primary),
-                                  ),
-                                  errorBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red),
-                                  ),
-                                  focusedErrorBorder: const OutlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.red),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          SizedBox(height: 30.h),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: 50.h,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                cubit.login();
+                        ),
+                        SizedBox(height: 20.h),
+                        BlocBuilder<AppManagerCubit, AppManagerState>(
+                          buildWhen: (previous, current) =>
+                              current is ObscureChange,
+                          builder: (context, state) {
+                            return AppTextField(
+                              controller: cubit.passwordController,
+                              validate: (value) {
+                                if (value!.isEmpty) {
+                                  return "Password required!";
+                                }
+                                return null;
                               },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primary,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.r),
+                              hint: "Please Enter Password",
+                              type: TextInputType.visiblePassword,
+                              isPassword: cubit.obscure,
+                              maxLine: 1,
+                              suffix: IconButton(
+                                onPressed: () {
+                                  cubit.obscure = !cubit.obscure;
+                                  BlocProvider.of<AppManagerCubit>(context)
+                                      .onObscureChange();
+                                },
+                                icon: Icon(
+                                  cubit.obscure
+                                      ? Icons.visibility_off_outlined
+                                      : Icons.visibility_outlined,
+                                  color: AppColors.primary,
                                 ),
                               ),
-                              child: Text(
-                                "Sign In",
-                                style: textTheme.titleLarge!.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            );
+                          },
+                        ),
+                        SizedBox(height: 30.h),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 50.h,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              cubit.login(context);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(16.r),
                               ),
                             ),
+                            child:
+                                BlocBuilder<AppManagerCubit, AppManagerState>(
+                              buildWhen: (previous, current) =>
+                                  current is LoadingChange,
+                              builder: (context, state) {
+                                return cubit.loading
+                                    ? SizedBox(
+                                        width: 20.w,
+                                        height: 20.h,
+                                        child: const CircularProgressIndicator(
+                                          color: Colors.white,
+                                        ),
+                                      )
+                                    : Text(
+                                        "Sign In",
+                                        style: textTheme.titleLarge!.copyWith(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      );
+                              },
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

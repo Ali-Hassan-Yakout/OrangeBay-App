@@ -40,7 +40,10 @@ class _RegisterViewState extends State<RegisterView> {
           if (state is RegisterSuccess) {
             onRegisterSuccess();
           } else if (state is RegisterFailure) {
-            AppToast.displayToast(state.errorMessage);
+            AppToast.displayToast(
+              message: state.errorMessage,
+              isError: true,
+            );
           }
         },
         child: Scaffold(
@@ -90,6 +93,7 @@ class _RegisterViewState extends State<RegisterView> {
                               }
                               return null;
                             },
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.name,
                             cursorColor: AppColors.primary,
@@ -135,6 +139,7 @@ class _RegisterViewState extends State<RegisterView> {
                               }
                               return null;
                             },
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.name,
                             cursorColor: AppColors.primary,
@@ -180,6 +185,7 @@ class _RegisterViewState extends State<RegisterView> {
                               }
                               return null;
                             },
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.emailAddress,
                             cursorColor: AppColors.primary,
@@ -225,6 +231,7 @@ class _RegisterViewState extends State<RegisterView> {
                               }
                               return null;
                             },
+                            autovalidateMode: AutovalidateMode.onUserInteraction,
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.visiblePassword,
                             obscureText: true,
@@ -277,6 +284,7 @@ class _RegisterViewState extends State<RegisterView> {
                                   }
                                   return null;
                                 },
+                                autovalidateMode: AutovalidateMode.onUserInteraction,
                                 textInputAction: TextInputAction.done,
                                 keyboardType: TextInputType.visiblePassword,
                                 obscureText: cubit.obscure,
@@ -385,7 +393,10 @@ class _RegisterViewState extends State<RegisterView> {
   }
 
   void onRegisterSuccess() {
-    AppToast.displayToast("Account Created");
+    AppToast.displayToast(
+      message: "Account Created",
+      isError: false,
+    );
     GoRouter.of(context).pushReplacement(AppRouter.login);
   }
 }

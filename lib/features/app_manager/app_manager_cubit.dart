@@ -5,4 +5,6 @@ class AppManagerCubit extends Cubit<AppManagerState> {
   AppManagerCubit() : super(AppManagerInitial());
 
   void onObscureChange() => emit(ObscureChange());
+
+  void onLoadingChange() => emit(LoadingChange());
 }

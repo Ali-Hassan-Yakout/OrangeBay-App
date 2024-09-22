@@ -4,7 +4,9 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:orange_bay/core/utils/app_colors.dart';
+import 'package:orange_bay/core/utils/app_connectivity.dart';
 import 'package:orange_bay/core/utils/app_dio.dart';
+import 'package:orange_bay/core/utils/app_permissions.dart';
 import 'package:orange_bay/core/utils/app_router.dart';
 import 'package:orange_bay/core/utils/shared_preferences.dart';
 import 'package:orange_bay/features/app_manager/app_manager_cubit.dart';
@@ -12,8 +14,10 @@ import 'package:orange_bay/generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  AppDio.init();
   await PreferenceUtils.init();
+  await AppPermissions.requestPermissions();
+  AppDio.init();
+  AppConnectivity.init();
   runApp(const OrangeBayCashless());
 }
 

@@ -28,19 +28,31 @@ class ReplacementCardBody extends StatelessWidget {
             height: 20,
           ),
           const CustomText(text: "Name"),
-          CustomTextField(
+          AppTextField(
             controller: nameController,
             hint: 'Enter Name',
-            errorText: "Please Enter Name",
+            validate: (value){
+              if(value!.isEmpty){
+                return "Please Enter Name";
+              }
+              return null;
+            },
+            type: TextInputType.name,
           ),
           const SizedBox(
             height: 20,
           ),
           const CustomText(text: "Phone"),
-          CustomTextField(
+          AppTextField(
             controller: phoneController,
             hint: 'Enter Phone',
-            errorText: "Please Enter Phone",
+            validate: (value){
+              if (value!.isEmpty){
+                return "Please Enter Phone";
+              }
+              return null;
+            },
+            type: TextInputType.phone,
           ),
           const SizedBox(
             height: 20,

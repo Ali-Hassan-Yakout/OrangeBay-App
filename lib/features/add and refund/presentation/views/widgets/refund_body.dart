@@ -31,11 +31,10 @@ class RefundBody extends StatelessWidget {
                 const CustomText(
                   text: 'Card Number',
                 ),
-                CustomTextField(
+                AppTextField(
                   controller: cardNum,
                   hint: '',
-                  iconColor: AppColors.blue,
-                  readOnly: true,
+                  isClickable: false,
                 ),
               ],
             ),
@@ -47,11 +46,10 @@ class RefundBody extends StatelessWidget {
                 const CustomText(
                   text: 'Current Balance',
                 ),
-                CustomTextField(
+                AppTextField(
                   controller: currentBalance,
                   hint: '',
-                  iconColor: AppColors.blue,
-                  readOnly: true,
+                  isClickable: false,
                 ),
               ],
             ),

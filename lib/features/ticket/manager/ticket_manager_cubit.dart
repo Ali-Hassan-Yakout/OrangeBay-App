@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:orange_bay/core/utils/app_dio.dart';
 import 'package:orange_bay/core/utils/app_endpoints.dart';
 import 'package:orange_bay/core/utils/app_print.dart';
 import 'package:orange_bay/core/utils/app_toast.dart';
+import 'package:orange_bay/features/app_manager/app_manager_cubit.dart';
 import 'package:orange_bay/features/ticket/manager/ticket_manager_state.dart';
 import 'package:orange_bay/models/cruises_response.dart';
 import 'package:orange_bay/models/nationalities_response.dart';
@@ -32,6 +34,7 @@ class TicketManagerCubit extends Cubit<TicketManagerState> {
   final AppPrint printerService = AppPrint();
   List<BluetoothDevice> devices = [];
   BluetoothDevice? selectedDevice;
+  bool loading = false;
 
   Future<void> getTickets() async {
     try {
@@ -43,7 +46,10 @@ class TicketManagerCubit extends Cubit<TicketManagerState> {
       }
       emit(GetTickets());
     } catch (e) {
-      AppToast.displayToast('Get Tickets Failure');
+      AppToast.displayToast(
+        message: 'Get Tickets Failure',
+        isError: true,
+      );
     }
   }
 
@@ -57,7 +63,10 @@ class TicketManagerCubit extends Cubit<TicketManagerState> {
       }
       emit(GetTicketCruises());
     } catch (e) {
-      AppToast.displayToast('Get Cruises Failure');
+      AppToast.displayToast(
+        message: 'Get Cruises Failure',
+        isError: true,
+      );
     }
   }
 
@@ -71,7 +80,10 @@ class TicketManagerCubit extends Cubit<TicketManagerState> {
       }
       emit(GetNationalities());
     } catch (e) {
-      AppToast.displayToast('Get Nationalities Failure');
+      AppToast.displayToast(
+        message: 'Get Nationalities Failure',
+        isError: true,
+      );
     }
   }
 
@@ -85,15 +97,20 @@ class TicketManagerCubit extends Cubit<TicketManagerState> {
       }
       emit(GetTicketTourGuides());
     } catch (e) {
-      AppToast.displayToast('Get Tour Guides Failure');
+      AppToast.displayToast(
+        message: 'Get Tour Guides Failure',
+        isError: true,
+      );
     }
   }
 
-  Future<void> postOrder() async {
+  Future<void> postOrder(BuildContext context) async {
     if (nationalityValue != null &&
         orderTickets.isNotEmpty &&
         cruiseValue != null &&
         tourGuideValue != null) {
+      loading = true;
+      BlocProvider.of<AppManagerCubit>(context).onLoadingChange();
       ordersRequestItems.clear();
       for (var element in orderTickets) {
         for (int i = 0; i < element.quantity; i++) {
@@ -117,8 +134,13 @@ class TicketManagerCubit extends Cubit<TicketManagerState> {
       orderId = int.parse(response.data.toString().split(" ")[5]);
       getOrder();
     } else {
-      AppToast.displayToast("Options can't be blank");
+      AppToast.displayToast(
+        message: "Options can't be blank",
+        isError: true,
+      );
     }
+    loading = false;
+    BlocProvider.of<AppManagerCubit>(context).onLoadingChange();
   }
 
   Future<void> getOrder() async {

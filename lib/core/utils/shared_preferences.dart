@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 enum PrefKeys {
   accessToken,
   userName,
+  baseUrl,
 }
 
 class PreferenceUtils {

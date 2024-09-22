@@ -27,12 +27,20 @@ class AllTextFields extends StatelessWidget {
             const CustomText(
               text: 'Name',
             ),
-            CustomTextField(
+            AppTextField(
               controller: userName,
               hint: 'Enter Name',
-              icon: Icons.person,
-              iconColor: AppColors.blue,
-              errorText: 'Please Enter Visitor Name',
+              suffix: const Icon(
+                Icons.person,
+                color: AppColors.blue,
+              ),
+              validate: (value) {
+                if (value!.isEmpty) {
+                  return 'Please Enter Visitor Name';
+                }
+                return null;
+              },
+              type: TextInputType.name,
             ),
           ],
         ),
@@ -44,12 +52,20 @@ class AllTextFields extends StatelessWidget {
             const CustomText(
               text: 'Phone',
             ),
-            CustomTextField(
+            AppTextField(
               controller: phone,
               hint: 'Enter Phone',
-              icon: Icons.phone,
-              iconColor: AppColors.blue,
-              errorText: 'Please Enter Visitor Phone',
+              suffix: const Icon(
+                Icons.phone,
+                color: AppColors.blue,
+              ),
+              validate: (value) {
+                if (value!.isEmpty) {
+                  return 'Please Enter Visitor Phone';
+                }
+                return null;
+              },
+              type: TextInputType.phone,
             ),
           ],
         ),
@@ -61,12 +77,20 @@ class AllTextFields extends StatelessWidget {
             const CustomText(
               text: 'Nationality',
             ),
-            CustomTextField(
+            AppTextField(
               controller: nationality,
               hint: 'Enter Nationality',
-              icon: Icons.place,
-              iconColor: AppColors.blue,
-              errorText: 'Please Enter Visitor Nationality',
+              suffix: const Icon(
+                Icons.place,
+                color: AppColors.blue,
+              ),
+              validate: (value) {
+                if (value!.isEmpty) {
+                  return 'Please Enter Visitor Nationality';
+                }
+                return null;
+              },
+              type: TextInputType.text,
             ),
           ],
         ),
@@ -78,12 +102,20 @@ class AllTextFields extends StatelessWidget {
             const CustomText(
               text: 'Balance',
             ),
-            CustomTextField(
+            AppTextField(
               controller: money,
               hint: 'Enter Amount',
-              icon: FontAwesomeIcons.dollarSign,
-              iconColor: AppColors.blue,
-              errorText: 'Please Enter Amount',
+              suffix: const Icon(
+                FontAwesomeIcons.dollarSign,
+                color: AppColors.blue,
+              ),
+              validate:(value) {
+                if (value!.isEmpty) {
+                  return 'Please Enter Amount';
+                }
+                return null;
+              },
+              type: TextInputType.number,
             ),
           ],
         ),

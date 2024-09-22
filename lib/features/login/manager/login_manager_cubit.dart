@@ -5,6 +5,7 @@ import 'package:orange_bay/core/utils/app_connectivity.dart';
 import 'package:orange_bay/core/utils/app_dio.dart';
 import 'package:orange_bay/core/utils/app_endpoints.dart';
 import 'package:orange_bay/core/utils/shared_preferences.dart';
+import 'package:orange_bay/features/app_manager/app_manager_cubit.dart';
 import 'package:orange_bay/features/login/manager/login_manager_state.dart';
 
 class LoginManagerCubit extends Cubit<LoginManagerState> {
@@ -15,11 +16,14 @@ class LoginManagerCubit extends Cubit<LoginManagerState> {
   final passwordController = TextEditingController();
   Map<String, dynamic> decodedToken = {};
   bool obscure = true;
+  bool loading = false;
 
-  Future<void> login() async {
+  Future<void> login(BuildContext context) async {
     if (!formKey.currentState!.validate()) {
       return;
     }
+    loading = true;
+    BlocProvider.of<AppManagerCubit>(context).onLoadingChange();
     try {
       final response = await AppDio.post(
         endPoint: AppEndpoints.login,
@@ -49,5 +53,7 @@ class LoginManagerCubit extends Cubit<LoginManagerState> {
         emit(LoginFailure('Check Your internet!'));
       }
     }
+    loading = false;
+    BlocProvider.of<AppManagerCubit>(context).onLoadingChange();
   }
 }

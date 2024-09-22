@@ -1,5 +1,5 @@
+
 class AppEndpoints{
-  static const String baseUrl = "https://org-bay.runasp.net/api/";
   static const String tickets = "tickets";
   static const String cruises = "cruises";
   static const String nationalities = "nationalities";

@@ -6,6 +6,8 @@ import 'package:orange_bay/core/utils/app_colors.dart';
 import 'package:orange_bay/core/utils/app_connectivity.dart';
 import 'package:orange_bay/core/widgets/custom_app_bar.dart';
 import 'package:orange_bay/core/widgets/custom_button.dart';
+import 'package:orange_bay/features/app_manager/app_manager_cubit.dart';
+import 'package:orange_bay/features/app_manager/app_manager_state.dart';
 import 'package:orange_bay/features/card%20activation/presentation/views/widgets/custom_text.dart';
 import 'package:orange_bay/features/ticket/manager/ticket_manager_cubit.dart';
 import 'package:orange_bay/features/ticket/manager/ticket_manager_state.dart';
@@ -330,12 +332,23 @@ class _TicketBodyState extends State<TicketBody> {
                 ],
               ),
               SizedBox(height: 20.h),
-              CustomButton(
-                backgroundColor: AppColors.mainOrange,
-                text: 'Confirm',
-                textColor: Colors.white,
-                onPressed: () {
-                  cubit.postOrder();
+              BlocBuilder<AppManagerCubit, AppManagerState>(
+                buildWhen: (previous, current) => current is LoadingChange,
+                builder: (context, state) {
+                  return cubit.loading
+                      ? LinearProgressIndicator(
+                          color: AppColors.mainOrange,
+                          borderRadius: BorderRadius.circular(16.r),
+                    minHeight: 15.h,
+                        )
+                      : CustomButton(
+                          backgroundColor: AppColors.mainOrange,
+                          text: 'Confirm',
+                          textColor: Colors.white,
+                          onPressed: () {
+                            cubit.postOrder(context);
+                          },
+                        );
                 },
               ),
             ],

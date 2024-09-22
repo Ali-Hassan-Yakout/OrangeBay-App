@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:orange_bay/core/utils/connectivity_wrapper.dart';
 import 'package:orange_bay/core/widgets/card_verification_view.dart';
 import 'package:orange_bay/features/add%20and%20refund/presentation/views/add_money_view.dart';
 import 'package:orange_bay/features/add%20and%20refund/presentation/views/refund_view.dart';
@@ -13,6 +14,7 @@ import 'package:orange_bay/features/cashier/presentation/views/transactions_hist
 import 'package:orange_bay/features/login/presentation/views/login_view.dart';
 import 'package:orange_bay/features/register/presentation/views/register_view.dart';
 import 'package:orange_bay/features/replacement_card/presentation/views/replacment_card_view.dart';
+import 'package:orange_bay/features/settings/presentation/views/settings_screen.dart';
 import 'package:orange_bay/features/ticket/presentation/views/ticket_view.dart';
 import 'package:orange_bay/features/tour_guide_profit/presentation/views/tour_guide_profit_view.dart';
 import 'package:orange_bay/features/transactions_history/presentation/views/admin_transactions_history_view.dart';
@@ -22,6 +24,7 @@ abstract class AppRouter {
   static const String register = "/register";
   static const String ticket = "/ticket";
   static const String admin = '/admin';
+  static const String settings = '/settings';
   static const String cardActivation = '/cardActivation';
   static const String tourGuideProfit = "/tourGuideProfit";
   static const String adminTransactionsHistoryAuth =
@@ -50,17 +53,22 @@ abstract class AppRouter {
       GoRoute(
         path: login,
         builder: (BuildContext context, GoRouterState state) =>
-            const LoginView(),
+            const ConnectivityWrapper(child: LoginView()),
       ),
       GoRoute(
         path: register,
         builder: (BuildContext context, GoRouterState state) =>
-            const RegisterView(),
+            const ConnectivityWrapper(child: RegisterView()),
+      ),
+      GoRoute(
+        path: settings,
+        builder: (BuildContext context, GoRouterState state) =>
+            const SettingsScreen(),
       ),
       GoRoute(
         path: admin,
         builder: (BuildContext context, GoRouterState state) =>
-            const AdminHomeView(),
+            const ConnectivityWrapper(child: AdminHomeView()),
       ),
       GoRoute(
         path: ticket,
@@ -75,7 +83,7 @@ abstract class AppRouter {
       GoRoute(
         path: cashier,
         builder: (BuildContext context, GoRouterState state) =>
-            const CashierHomeView(),
+            const ConnectivityWrapper(child: CashierHomeView()),
       ),
       GoRoute(
         path: cardActivation,

@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:orange_bay/core/utils/app_endpoints.dart';
 import 'package:orange_bay/core/utils/shared_preferences.dart';
 
 class AppDio {
@@ -8,7 +7,10 @@ class AppDio {
   static Dio _instance() {
     return _dio ??= Dio(
       BaseOptions(
-        baseUrl: AppEndpoints.baseUrl,
+        baseUrl: PreferenceUtils.getString(
+          PrefKeys.baseUrl,
+          "https://org-bay.runasp.net/api/",
+        ),
       ),
     );
   }
@@ -27,7 +29,8 @@ class AppDio {
       options: Options(
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${PreferenceUtils.getString(PrefKeys.accessToken)}'
+          'Authorization':
+              'Bearer ${PreferenceUtils.getString(PrefKeys.accessToken)}'
         },
       ),
     );
@@ -45,7 +48,8 @@ class AppDio {
       options: Options(
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${PreferenceUtils.getString(PrefKeys.accessToken)}'
+          'Authorization':
+              'Bearer ${PreferenceUtils.getString(PrefKeys.accessToken)}'
         },
       ),
     );
@@ -63,7 +67,8 @@ class AppDio {
       options: Options(
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${PreferenceUtils.getString(PrefKeys.accessToken)}'
+          'Authorization':
+              'Bearer ${PreferenceUtils.getString(PrefKeys.accessToken)}'
         },
       ),
     );
@@ -80,9 +85,14 @@ class AppDio {
       options: Options(
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer ${PreferenceUtils.getString(PrefKeys.accessToken)}'
+          'Authorization':
+              'Bearer ${PreferenceUtils.getString(PrefKeys.accessToken)}'
         },
       ),
     );
+  }
+
+  static void setBaseUrl (String baseUrl){
+    _dio!.options.baseUrl = baseUrl;
   }
 }

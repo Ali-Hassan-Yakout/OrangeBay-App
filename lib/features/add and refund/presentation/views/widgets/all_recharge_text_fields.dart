@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:orange_bay/core/utils/app_colors.dart';
 import 'package:orange_bay/core/widgets/text_form_field.dart';
 import 'package:orange_bay/features/card%20activation/presentation/views/widgets/custom_text.dart';
 
@@ -20,11 +19,10 @@ class AllRechargeTextFields extends StatelessWidget {
               const CustomText(
                 text: 'Card Number',
               ),
-              CustomTextField(
+              AppTextField(
                 controller: cardNum,
                 hint: '',
-                iconColor: AppColors.blue,
-                readOnly: true,
+                isClickable: false,
               ),
             ],
           ),
@@ -33,11 +31,10 @@ class AllRechargeTextFields extends StatelessWidget {
               const CustomText(
                 text: 'Current Balance',
               ),
-              CustomTextField(
+              AppTextField(
                 controller: currentBalance,
                 hint: '',
-                iconColor: AppColors.blue,
-                readOnly: true,
+                isClickable: false,
               ),
             ],
           ),
@@ -46,11 +43,16 @@ class AllRechargeTextFields extends StatelessWidget {
               const CustomText(
                 text: 'Amount to be charged',
               ),
-              CustomTextField(
+              AppTextField(
                 controller: money,
                 hint: 'Enter Amount',
-                iconColor: AppColors.blue,
-                errorText: 'Please Enter Amount',
+                validate: (value) {
+                  if(value!.isEmpty){
+                    return 'Please Enter Amount';
+                  }
+                  return null;
+                },
+                type: TextInputType.number,
               ),
             ],
           ),
